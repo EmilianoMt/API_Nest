@@ -5,7 +5,7 @@ export class Transaccion {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column('int')
+    @Column('bigint')
     numeroCliente: number;
 
     @Column('float')
@@ -14,6 +14,8 @@ export class Transaccion {
     @CreateDateColumn({type: 'timestamp'})
     fecha: Date;
 
-    @Column('text')
-    estado: string;
+    @Column('text',{array: true})
+    estado: string[
+
+    ];
 }

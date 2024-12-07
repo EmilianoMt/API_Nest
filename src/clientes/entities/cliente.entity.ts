@@ -5,7 +5,7 @@ export class Cliente {
   @PrimaryGeneratedColumn('uuid')
   clienteId: string;
 
-  @Column()
+  @Column('bigint')
   Numero: number;
 
   @Column()

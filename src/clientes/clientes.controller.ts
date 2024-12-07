@@ -12,10 +12,10 @@ export class ClientesController {
     return this.clientesService.create(createClienteDto);
   }
 
-  @Get()
-  findAll() {
-    return this.clientesService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.clientesService.findAll();
+  // }
 
   @Get(':numero')
   findOne(@Param('numero') numero: number) {

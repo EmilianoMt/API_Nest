@@ -4,15 +4,40 @@ import { UpdateTransaccioneDto } from './dto/update-transaccione.dto';
 import { Transaccion } from './entities/transaccion.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Cliente } from 'src/clientes/entities/cliente.entity';
 
 @Injectable()
 export class TransaccionesService {
   constructor(
     @InjectRepository(Transaccion)
     private transaccionRepository: Repository<Transaccion>,
+    @InjectRepository(Cliente)
+    private clienteRepository: Repository<Cliente>,
   ) {}
-  create(createTransaccioneDto: CreateTransaccioneDto) {
-    return this.transaccionRepository.save(createTransaccioneDto);
+
+  async create(createTransaccioneDto: CreateTransaccioneDto) {
+    const { numeroCliente, monto } = createTransaccioneDto;
+
+    let cliente = await this.clienteRepository.findOne({
+      where: { Numero: numeroCliente },
+    });
+
+    if (!cliente) {
+      cliente = this.clienteRepository.create({
+        Numero: numeroCliente,
+        saldo: monto,
+      });
+    } else {
+      cliente.saldo += monto;
+    }
+
+    await this.clienteRepository.save(cliente);
+
+    const transaccion = this.transaccionRepository.create({
+      ...createTransaccioneDto,
+      estado: ["Exitoso"],
+    });
+    return this.transaccionRepository.save(transaccion);
   }
 
   findAll() {
@@ -25,11 +50,4 @@ export class TransaccionesService {
     });
   }
 
-  // update(id: number, updateTransaccioneDto: UpdateTransaccioneDto) {
-  //   return `This action updates a #${id} transaccione`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} transaccione`;
-  // }
 }
