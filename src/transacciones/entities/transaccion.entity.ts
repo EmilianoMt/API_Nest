@@ -11,11 +11,12 @@ export class Transaccion {
     @Column('float')
     monto: number;
 
+    @Column('text',{default: 'Telcel'})
+    compañia: string;
+
     @CreateDateColumn({type: 'timestamp'})
     fecha: Date;
 
-    @Column('text',{array: true})
-    estado: string[
-
-    ];
+    @Column('text',{default: 'Exitoso'})
+    estado: string;
 }

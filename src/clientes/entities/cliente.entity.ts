@@ -6,7 +6,7 @@ export class Cliente {
   clienteId: string;
 
   @Column('bigint')
-  Numero: number;
+  numero: number;
 
   @Column()
   saldo: number;

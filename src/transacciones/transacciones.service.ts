@@ -15,16 +15,16 @@ export class TransaccionesService {
     private clienteRepository: Repository<Cliente>,
   ) {}
 
-  async create(createTransaccioneDto: CreateTransaccioneDto) {
+  async create(createTransaccioneDto: CreateTransaccioneDto) {    
     const { numeroCliente, monto } = createTransaccioneDto;
 
     let cliente = await this.clienteRepository.findOne({
-      where: { Numero: numeroCliente },
+      where: { numero: numeroCliente },
     });
 
     if (!cliente) {
       cliente = this.clienteRepository.create({
-        Numero: numeroCliente,
+        numero: numeroCliente,
         saldo: monto,
       });
     } else {
@@ -35,7 +35,6 @@ export class TransaccionesService {
 
     const transaccion = this.transaccionRepository.create({
       ...createTransaccioneDto,
-      estado: ["Exitoso"],
     });
     return this.transaccionRepository.save(transaccion);
   }

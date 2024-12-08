@@ -9,6 +9,8 @@ export class TransaccionesController {
 
   @Post()
   create(@Body() createTransaccioneDto: CreateTransaccioneDto) {
+    console.log(createTransaccioneDto);
+    
     return this.transaccionesService.create(createTransaccioneDto);
   }
 
